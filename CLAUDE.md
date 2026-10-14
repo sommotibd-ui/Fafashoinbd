@@ -11,7 +11,7 @@
 
 | কী | কোথায় |
 |---|---|
-| কোড | `github.com/tamimceo-cell/fashopbd` (প্রাইভেট) — বানাতে হবে |
+| কোড | `github.com/sommotibd-ui/fafashoinbd` (প্রাইভেট, sommotibd-ui অ্যাকাউন্টে) |
 | হোস্টিং | Hostinger Cloud → Web Apps (Node.js), GitHub থেকে অটো-ডিপ্লয় |
 | ডাটাবেস | Supabase — নতুন ইমেইলে নতুন অ্যাকাউন্ট, প্রজেক্ট `fashopbd`, Singapore |
 | কুরিয়ার | Pathao (`site.ts → courier`) |

@@ -4,7 +4,7 @@
 চলবে, সব মিললে তবেই ডোমেইন বদল। এডে কিছু বদলাতে হবে না — লিংক একই।
 
 ## ১. GitHub
-- [ ] github.com-এ নতুন **প্রাইভেট** রিপো `fashopbd` (খালি) — Claude বাকিটা পুশ করবে
+- [x] রিপো `sommotibd-ui/fafashoinbd` — কোড পুশ করা হয়েছে
 
 ## ২. Supabase (নতুন ইমেইলে নতুন অ্যাকাউন্ট)
 - [ ] নতুন প্রজেক্ট `fashopbd`, রিজিয়ন **Singapore**
@@ -22,7 +22,7 @@
 - [ ] লাইভের পরে Webhook URL `https://fashopbd.com/api/pathao/webhook/<PATHAO_WEBHOOK_PATH>` → সিক্রেট `PATHAO_WEBHOOK_SECRET`
 
 ## ৫. Hostinger — টেস্ট ঠিকানায়
-- [ ] Web Apps → নতুন Node.js অ্যাপ → GitHub `fashopbd` → টেম্প ঠিকানা
+- [ ] Web Apps → নতুন Node.js অ্যাপ → GitHub `sommotibd-ui/fafashoinbd` → টেম্প ঠিকানা
 - [ ] Environment variables (`.env.example`):
   - `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`
   - `NEXT_PUBLIC_FB_PIXEL_ID=2070399363542962`
