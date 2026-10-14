@@ -7,6 +7,7 @@ import { bn, tk } from '@/lib/money';
 import { tierCompare, type Tier } from '@/lib/landing';
 import { track, trackPurchaseBrowser, ensureFbc, getFbp, getFbc, getFbclid } from './Pixel';
 import { site } from '@/config/site';
+import { landingOptions, optionsNote } from '@/config/landing-options';
 
 interface P { code: string; fbId: string; name: string; price: number; image: string; optKey: string }
 
@@ -26,6 +27,8 @@ export default function LandingOrder({
 }) {
   const router = useRouter();
   const [qty, setQty] = useState(initialQty);
+  // সাইজ-কালার — কাস্টমার নিজে লিখে দেয়
+  const opts = landingOptions[slug];
   // পুরনো চেকআউটে "ঢাকা সিটির বাইরে" আগে থেকে বাছা থাকত (৭০% অর্ডার বাইরের)
   const [city, setCity] = useState<'inside' | 'outside'>('outside');
   const [busy, setBusy] = useState(false);
@@ -87,7 +90,8 @@ export default function LandingOrder({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           name: f.get('name'), phone: f.get('phone'), address: f.get('address'),
-          cityType: city, note: f.get('note') || null,
+          cityType: city,
+          note: [f.get('note'), opts ? optionsNote(String(f.get('size') || ''), String(f.get('color') || '')) : ''].filter(Boolean).join(' · ') || null,
           website: f.get('website'),
           elapsed: Date.now() - openedAt.current,
           landing: slug,
@@ -188,6 +192,19 @@ export default function LandingOrder({
         <label className="mb-1.5 block text-sm font-semibold" htmlFor="lp-address">সম্পূর্ণ ঠিকানা <span className="text-brand">*</span></label>
         <textarea id="lp-address" name="address" required autoComplete="street-address" rows={2}
           placeholder="বাসা/রোড, এলাকা, থানা, জেলা" className="field mb-4" />
+
+        {opts?.size && (
+          <>
+            <label className="mb-1.5 block text-sm font-semibold" htmlFor="lp-size">সাইজ <span className="text-brand">*</span></label>
+            <input id="lp-size" name="size" required placeholder={tier.qty > 1 ? 'যেমন: ৩৬, ৩৮' : 'যেমন: ৩৬'} className="field mb-4" />
+          </>
+        )}
+        {opts?.color && (
+          <>
+            <label className="mb-1.5 block text-sm font-semibold" htmlFor="lp-color">কালার <span className="text-brand">*</span></label>
+            <input id="lp-color" name="color" required placeholder={tier.qty > 1 ? 'যেমন: স্কিন, পার্পল' : 'যেমন: স্কিন'} className="field mb-4" />
+          </>
+        )}
 
         {noteLabel && (
           <>

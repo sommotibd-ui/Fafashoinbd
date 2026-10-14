@@ -15,6 +15,7 @@ import { NextResponse, after } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase';
 import { cleanTiers } from '@/lib/landing';
 import { site } from '@/config/site';
+import { landingOptions } from '@/config/landing-options';
 import { pathaoConfigured, refreshCustomerRate } from '@/lib/pathao';
 import {
   buildEvent, sendWithRetry, newEventId, clientIpFrom,
@@ -116,6 +117,11 @@ export async function POST(req: Request) {
       return NextResponse.json({ ok: false, error: `${lp.note_label || 'তথ্য'} লিখুন।` }, { status: 400 });
     }
     tierPrice = tier.price;
+    // সাইজ-কালার বাছাই চালু থাকা পেইজে ওগুলো ছাড়া অর্ডার নয়
+    const lo = landingOptions[landingSlug]; const nt = String(body.note || '');
+    if (lo && ((lo.size && !nt.includes('সাইজ:')) || (lo.color && !nt.includes('কালার:')))) {
+      return NextResponse.json({ ok: false, error: 'সাইজ ও কালার বাছুন।' }, { status: 400 });
+    }
   }
 
   let subtotal = 0;
@@ -210,7 +216,7 @@ export async function POST(req: Request) {
 
   const { data: order, error: oErr } = await db.from('orders').insert({
     name, phone, phone_raw: String(body.phone || ''), address,
-    city_type: cityType, note: body.note || null,
+    city_type: cityType, note: body.note ? String(body.note).slice(0, 500) : null,
     subtotal, shipping, total,
     fbp, fbc, fbclid: body.fbclid || null,
     client_ip: ip, user_agent: ua,
